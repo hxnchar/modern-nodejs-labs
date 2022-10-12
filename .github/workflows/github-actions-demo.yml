@@ -12,10 +12,10 @@ jobs:
     
     steps:
     - name: Setuping Node 14
-      uses: actions/checkout@v3
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        node-version: 14
+        node-version: 16
     - name: Install
       run: npm ci
     - name: Build project
