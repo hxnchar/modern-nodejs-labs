@@ -10,22 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Init testing
-    - run: echo "🤡 Let`s test this pr"
       uses: actions/checkout@v2
+    - run: echo "🤡 Let`s test this pr"
     - name: Use Node.js 16
-      uses: actions/setup-node@v2
       with:
         node-version: "16"
         cache: "npm"
     - name: Install
-      uses: actions/setup-node@v2
       run: npm ci
     - name: Build project
-      uses: actions/setup-node@v2
       run: npm run build
     - name: Run eslint
-      uses: actions/setup-node@v2
       run: npm run eslint
     - name: Run prettier
-      uses: actions/setup-node@v2
       run: npm run prettier
