@@ -16,7 +16,7 @@ jobs:
       with:
         node-version: 14
         cache: npm
-        working-directory: '.'
+        working-directory: '../'
     - name: Install
       run: npm ci
     - name: Build project
