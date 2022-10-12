@@ -8,14 +8,11 @@ on:
 jobs:
  build:
     runs-on: ubuntu-latest
-    steps:
-    - name: Init testing
-      uses: actions/checkout@v2
-    - run: echo "🤡 Let`s test this pr"
-    - name: Use Node.js 16
+- name: Setuping Node 14
+      uses: actions/setup-node@v3
       with:
-        node-version: "16"
-        cache: "npm"
+        node-version: 14
+        cache: npm
     - name: Install
       run: npm ci
     - name: Build project
