@@ -6,7 +6,7 @@ on:
     types: [opened, reopened]
 
 jobs:
- build:
+  build:
     runs-on: ubuntu-latest
     - name: Setuping Node 14
       uses: actions/setup-node@v3
