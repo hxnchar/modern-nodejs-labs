@@ -14,10 +14,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "eslint": "eslint . --ext .ts,.tsx --ignore-path .gitignore",
-    "eslint:fix": "eslint . --ext .ts,.tsx --fix --ignore-path .gitignore",
-    "prettier": "prettier --check . --ignore-path .gitignore",
-    "prettier:fix": "prettier --write . --ignore-path .gitignore",
+    "eslint": "eslint src/**/*.ts",
+    "eslint:fix": "eslint src/**/*.ts --fix",
+    "prettier": "prettier src/**/*.ts --check",
+    "prettier:fix": "prettier src/**/*.ts --write",
     "prepare": "husky install"
   },
   "keywords": [],
