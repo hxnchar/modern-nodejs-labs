@@ -17,9 +17,11 @@ jobs:
       with:
         node-version: "16"
         cache: "npm"
-    - name: Install Eslint
+    - name: Install
       run: npm ci
+    - name: Build project
+      run: npm run build
     - name: Run eslint
       run: npm run eslint
-      - name: Run prettier
+    - name: Run prettier
       run: npm run prettier
