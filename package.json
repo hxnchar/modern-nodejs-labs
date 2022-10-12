@@ -20,6 +20,9 @@
     "prettier:fix": "prettier src/**/*.ts --write",
     "prepare": "husky install"
   },
+  "bugs": {
+    "url": "https://github.com/hxnchar/modern-nodejs-labs/issues"
+  },
   "keywords": [],
   "author": "Oleksii Honchar",
   "license": "ISC",
