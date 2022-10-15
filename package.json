@@ -30,8 +30,5 @@
   "lint-staged": {
     "*.ts": "eslint --cache --fix",
     "*.{ts,css,md}": "prettier --write"
-  },
-  "dependencies": {
-    "next": "^12.3.1"
   }
 }
