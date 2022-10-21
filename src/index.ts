@@ -19,6 +19,7 @@ http
         res.end(`Hello from ${method} form-data`);
         break;
       default:
+        res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end('This page doesn`t exist :(');
         break;
     }
@@ -26,3 +27,7 @@ http
   .listen(port, () => {
     console.log(`App is running on port ${port}`);
   });
+
+process.on('SIGTERM', () => {
+  console.info('SIGTERM signal received.');
+});
