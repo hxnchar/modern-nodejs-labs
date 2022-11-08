@@ -1,21 +1,21 @@
-import methods from '../constants/methods';
+import { HTTPMethod } from '../constants/methods';
 
 const getMethod = (method: string): string => {
   let stringifiedMethod: string;
   switch (method) {
-    case methods.get:
+    case HTTPMethod.GET:
       stringifiedMethod = 'get';
       break;
-    case methods.post:
+    case HTTPMethod.POST:
       stringifiedMethod = 'post';
       break;
-    case methods.put:
+    case HTTPMethod.PUT:
       stringifiedMethod = 'put';
       break;
-    case methods.option:
+    case HTTPMethod.OPTIONS:
       stringifiedMethod = 'option';
       break;
-    case methods.delete:
+    case HTTPMethod.DELETE:
       stringifiedMethod = 'delete';
       break;
     default:
