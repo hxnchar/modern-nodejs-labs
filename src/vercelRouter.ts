@@ -1,20 +1,26 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { HTTPMethod } from './constants/methods';
 
-export class Router {
+export class VercelRouter {
   private routes: { [route: string]: { [method: string]: Function } } = {};
+  private basename: string;
 
-  constructor() {}
+  constructor(basename: string) {
+    this.basename = basename;
+  }
 
   private use(method: HTTPMethod, route: string, handler: Function) {
-    return this;
+    const fullRoute = this.basename.concat(route);
+    this.routes[fullRoute] = { method: handler };
   }
 
-  handle(req: VercelRequest, res: VercelResponse) {
-    return this;
+  public handle(req: VercelRequest, res: VercelResponse) {
+    console.log(req);
+    const { url, method } = req;
+    const handler = this.routes;
+    res.send({ req });
   }
 
-  // Some kind of express-like router
   public connect(route: string, handler: Function) {
     this.use(HTTPMethod.CONNECT, route, handler);
   }
