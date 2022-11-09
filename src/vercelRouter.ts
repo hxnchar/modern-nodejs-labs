@@ -21,10 +21,8 @@ export class VercelRouter {
   }
 
   public async handle(req: VercelRequest, res: VercelResponse) {
-    // TODO: read Vercel docs and understand how to get this shit
-    const { url, method } = req.query;
-    // TODO: change this to url and method lol
-    const handler = this.routes['api/joke/'][HTTPMethod.GET];
+    const { url, method } = req;
+    const handler = this.routes[url || '/api/joke'][method || HTTPMethod.GET];
     await handler(req, res);
   }
 
