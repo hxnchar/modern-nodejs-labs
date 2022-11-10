@@ -1,6 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { HTTPMethod } from './constants/methods';
-import handler from '../api/joke';
 
 type Handler = (
   req: VercelRequest,
