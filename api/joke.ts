@@ -3,10 +3,22 @@ import { VercelRouter } from '../src/vercelRouter';
 
 const jokeRouter = new VercelRouter('/api/joke');
 
-jokeRouter.get('/', (req, res) => {res.send({message: 'A funny joke was here but Vladlen has no почуття гумору('})});
-jokeRouter.delete('/', (req, res) => {res.send({message: 'Заходит скелет в бар. Заказывает пиво и швабру.'})});
-jokeRouter.get('/prikol', (req, res) => {res.send({message: 'BLKO)))'})});
+jokeRouter.get('/', (req, res) => {
+  res.send({ message: 'A funny joke was here but Vladlen has no почуття гумору(' });
+});
+jokeRouter.delete('/', (req, res) => {
+  res.send({ message: 'Заходит скелет в бар. Заказывает пиво и швабру.' });
+});
+jokeRouter.get('/prikol', (req, res) => {
+  res.send({ message: 'BLKO)))' });
+});
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
-  jokeRouter.handle(req, res);
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  try {
+    await jokeRouter.handle(req, res);
+  } catch (e: any) {
+    res.status(500).send(JSON.stringify({
+      errors: [{title: e.message}]
+    }))
+  }
 }
