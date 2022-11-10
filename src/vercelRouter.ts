@@ -1,65 +1,72 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { HTTPMethod } from './constants/methods';
+import handler from '../api/joke';
 
 type Handler = (
   req: VercelRequest,
   res: VercelResponse,
 ) => void | Promise<void>;
 
-// TODO: implement multiple handlers (Handler[])
 export class VercelRouter {
-  private routes: { [route: string]: { [method: string]: Handler } } = {};
-  private basename: string;
+  private routes: { [route: string]: { [method: string]: Handler[] } } = {};
+  private base: string;
 
   constructor(basename: string) {
-    this.basename = basename;
+    this.base = basename;
   }
 
-  private use(method: HTTPMethod, route: string, handler: Handler) {
-    const urn = this.basename.concat(route);
-    if (!this.routes[urn]?.[method]) {
-      const handlers = this.routes[urn] || {};
-      this.routes[urn] = { ...handlers, [method]: handler };
+  private use(method: HTTPMethod, route: string, ...handlers: Handler[]) {
+    if (!handlers.length) {
+      throw new Error('Handlers must be implemented');
+    }
+    const url = this.base.concat(route);
+
+    if (!this.routes[url]?.[method]) {
+      const existingHandlers = this.routes[url] || {};
+      this.routes[url] = { ...existingHandlers, [method]: handlers };
     } else {
-      this.routes[urn][method] = handler;
+      // Rewriting old handlers
+      this.routes[url][method] = handlers;
     }
   }
 
   public async handle(req: VercelRequest, res: VercelResponse) {
     const { url, method } = req;
-    const handler = this.routes[url as string][method as string];
-    await handler(req, res);
+    const methodHandlers = this.routes[url as string][method as string];
+    for (const handler of methodHandlers) {
+      await handler(req, res);
+    }
   }
 
-  public connect(route: string, handler: Handler) {
-    this.use(HTTPMethod.CONNECT, route, handler);
+  public connect(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.CONNECT, route, ...handlers);
   }
 
-  public delete(route: string, handler: Handler) {
-    this.use(HTTPMethod.DELETE, route, handler);
+  public delete(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.DELETE, route, ...handlers);
   }
 
-  public get(route: string, handler: Handler) {
-    this.use(HTTPMethod.GET, route, handler);
+  public get(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.GET, route, ...handlers);
   }
 
-  public head(route: string, handler: Handler) {
-    this.use(HTTPMethod.HEAD, route, handler);
+  public head(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.HEAD, route, ...handlers);
   }
 
-  public patch(route: string, handler: Handler) {
-    this.use(HTTPMethod.PATCH, route, handler);
+  public patch(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.PATCH, route, ...handlers);
   }
 
-  public post(route: string, handler: Handler) {
-    this.use(HTTPMethod.POST, route, handler);
+  public post(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.POST, route, ...handlers);
   }
 
-  public put(route: string, handler: Handler) {
-    this.use(HTTPMethod.PUT, route, handler);
+  public put(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.PUT, route, ...handlers);
   }
 
-  public trace(route: string, handler: Handler) {
-    this.use(HTTPMethod.TRACE, route, handler);
+  public trace(route: string, ...handlers: Handler[]) {
+    this.use(HTTPMethod.TRACE, route, ...handlers);
   }
 }
