@@ -10,8 +10,8 @@ export class VercelRouter {
   private routes: { [route: string]: { [method: string]: Handler[] } } = {};
   private base: string;
 
-  constructor(basename: string) {
-    this.base = basename;
+  constructor(base: string) {
+    this.base = base;
   }
 
   private use(method: HTTPMethod, route: string, ...handlers: Handler[]) {
@@ -32,6 +32,9 @@ export class VercelRouter {
   public async handle(req: VercelRequest, res: VercelResponse) {
     const { url, method } = req;
     const methodHandlers = this.routes[url as string][method as string];
+    if (!methodHandlers) {
+      throw new Error('Handlers are not implemented');
+    }
     for (const handler of methodHandlers) {
       await handler(req, res);
     }
