@@ -38,7 +38,6 @@ export class VercelRouter {
     for (const handler of methodHandlers) {
       await handler(req, res);
     }
-
     res.status(200).end();
   }
 
