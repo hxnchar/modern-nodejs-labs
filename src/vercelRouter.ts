@@ -27,19 +27,7 @@ export class VercelRouter {
 
   public async handle(req: VercelRequest, res: VercelResponse) {
     const { url, method } = req;
-    console.log('ROUTES')
-    console.log(this.routes);
-    console.log('=========')
-    console.log('URL')
-    console.log(url as string);
-    console.log('=========')
-    const handlers = this.routes[url as string];
-    console.log('HANDLERS')
-    console.log(handlers);
-    console.log('=========')
-    const handler = handlers[method as string];
-    console.log(handler);
-    console.log('=========')
+    const handler = this.routes[url as string][method as string];
     await handler(req, res);
   }
 
