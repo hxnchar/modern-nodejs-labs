@@ -6,9 +6,23 @@ const jokeRouter = new VercelRouter('/api/joke');
 jokeRouter.get('/', (req, res) => {
   res.send({ message: 'A funny joke was here but Vladlen has no почуття гумору(' });
 });
-jokeRouter.delete('/skeleton', (req, res) => {
+
+jokeRouter.delete('/', (req, res) => {
+  res.send({ message: 'A funny joke was deleted' });
+});
+
+jokeRouter.post('/skeleton', (req, res) => {
+  res.send({ message: 'Заходит скелет в бар. Подключается к бармену.' });
+});
+
+jokeRouter.get('/skeleton', (req, res) => {
   res.send({ message: 'Заходит скелет в бар. Заказывает пиво и швабру.' });
 });
+
+jokeRouter.delete('/skeleton', (req, res) => {
+  res.send({ message: 'Заходит скелет в бар. Удаляет бар.' });
+});
+
 jokeRouter.get('/prikol', (req, res) => {
   res.send({ message: 'BLKO)))' });
 });
