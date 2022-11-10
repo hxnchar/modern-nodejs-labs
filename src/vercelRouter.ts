@@ -16,8 +16,13 @@ export class VercelRouter {
   }
 
   private use(method: HTTPMethod, route: string, handler: Handler) {
-    const fullRoute = this.basename.concat(route);
-    this.routes[fullRoute] = { [method]: handler };
+    const urn = this.basename.concat(route);
+    if (!this.routes[urn]?.[method]) {
+      const handlers = this.routes[urn] || {};
+      this.routes[urn] = { ...handlers, [method]: handler };
+    } else {
+      this.routes[urn][method] = handler;
+    }
   }
 
   public async handle(req: VercelRequest, res: VercelResponse) {

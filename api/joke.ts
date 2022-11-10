@@ -4,7 +4,7 @@ import { VercelRouter } from '../src/vercelRouter';
 const jokeRouter = new VercelRouter('api/joke');
 
 jokeRouter.get('/', async (req: VercelRequest, res: VercelResponse) => {
-  res.status(200).send({ message: 'The joke is gone'});
+  res.status(200).send({message: 'Joke about jews and холокост'})
 });
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
