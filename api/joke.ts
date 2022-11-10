@@ -17,7 +17,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     await jokeRouter.handle(req, res);
   } catch (e: any) {
-    res.status(500).send(JSON.stringify({
+    const status = e.status ?? 500
+    res.status(status).send(JSON.stringify({
+      status,
       errors: [{title: e.message}]
     }))
   }
