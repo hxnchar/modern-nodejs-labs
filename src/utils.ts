@@ -1,4 +1,4 @@
-const safeJSON = (data: string, fallback: Object): Object => {
+const safeJSONParse = (data: string, fallback: Object): Object => {
   try {
     return JSON.parse(data);
   } catch {
@@ -6,4 +6,4 @@ const safeJSON = (data: string, fallback: Object): Object => {
   }
 };
 
-export { safeJSON };
+export { safeJSONParse };

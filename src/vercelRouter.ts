@@ -1,9 +1,18 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { HTTPMethod } from './constants/methods';
+import { safeJSONParse } from './utils';
+
+const processedContentTypes: { [key: string]: any; } = {
+  'text/html': (text: string): string => text,
+  'text/plain': (text: string): string => text,
+  'application/json': (json: string): Object => safeJSONParse(json, {}),
+  'application/x-www-form-urlencoded': (data: string): Object => Object.fromEntries(new URLSearchParams(data))
+}
 
 type Handler = (
   req: VercelRequest,
   res: VercelResponse,
+  payload: { [key: string]: string; },
 ) => void | Promise<void>;
 
 export class VercelRouter {
@@ -24,19 +33,29 @@ export class VercelRouter {
       const existingHandlers = this.routes[url] || {};
       this.routes[url] = { ...existingHandlers, [method]: handlers };
     } else {
-      // Rewriting old handlers
       this.routes[url][method] = handlers;
     }
   }
 
   public async handle(req: VercelRequest, res: VercelResponse) {
     const { url, method } = req;
+    let payload = {},
+        rawRequest = '';
+    for await (const chunk of req) {
+      rawRequest += chunk;
+    }
     const methodHandlers = this.routes[url as string][method as string];
     if (!methodHandlers) {
       throw new Error('Handlers are not implemented');
     }
+    if (req.headers['content-type']) {
+      const contentType: string = req.headers['content-type'].split(';')[0];
+      if (processedContentTypes[contentType]) {
+        payload = processedContentTypes[contentType](rawRequest);
+    }
+  }
     for (const handler of methodHandlers) {
-      await handler(req, res);
+      await handler(req, res, payload);
     }
     res.status(200).end();
   }

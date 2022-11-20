@@ -3,8 +3,9 @@ import { VercelRouter } from '../src/vercelRouter';
 
 const jokeRouter = new VercelRouter('/api/joke');
 
-jokeRouter.get('/', (req, res) => {
-  res.send({ message: 'A funny joke was here but Vladlen has no почуття гумору(' });
+jokeRouter.get('/', (req, res, payload) => {
+  const name = payload.name;
+  res.send({ message: `A funny joke was here but ${name} has no почуття гумору(` });
 });
 
 jokeRouter.delete('/', (req, res) => {
