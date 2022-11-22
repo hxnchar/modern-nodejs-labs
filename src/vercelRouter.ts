@@ -2,17 +2,18 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { HTTPMethod } from './constants/methods';
 import { safeJSONParse } from './utils';
 
-const processedContentTypes: { [key: string]: any; } = {
+const processedContentTypes: { [key: string]: any } = {
   'text/html': (text: string): string => text,
   'text/plain': (text: string): string => text,
   'application/json': (json: string): Object => safeJSONParse(json, {}),
-  'application/x-www-form-urlencoded': (data: string): Object => Object.fromEntries(new URLSearchParams(data))
-}
+  'application/x-www-form-urlencoded': (data: string): Object =>
+    Object.fromEntries(new URLSearchParams(data)),
+};
 
 type Handler = (
   req: VercelRequest,
   res: VercelResponse,
-  payload: { [key: string]: string; },
+  payload: { [key: string]: string },
 ) => void | Promise<void>;
 
 export class VercelRouter {
@@ -23,7 +24,7 @@ export class VercelRouter {
     this.base = base;
   }
 
-  private use(method: HTTPMethod, route: string, ...handlers: Handler[]) {
+  private use(method: string, route: string, ...handlers: Handler[]) {
     if (!handlers.length) {
       throw new Error('Handlers must be implemented');
     }
@@ -40,7 +41,7 @@ export class VercelRouter {
   public async handle(req: VercelRequest, res: VercelResponse) {
     const { url, method } = req;
     let payload = {},
-        rawRequest = '';
+      rawRequest = '';
     for await (const chunk of req) {
       rawRequest += chunk;
     }
@@ -52,8 +53,8 @@ export class VercelRouter {
       const contentType: string = req.headers['content-type'].split(';')[0];
       if (processedContentTypes[contentType]) {
         payload = processedContentTypes[contentType](rawRequest);
+      }
     }
-  }
     for (const handler of methodHandlers) {
       await handler(req, res, payload);
     }
