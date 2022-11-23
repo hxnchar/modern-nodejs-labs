@@ -6,4 +6,12 @@ const safeJSONParse = (data: string, fallback: Object): Object => {
   }
 };
 
-export { safeJSONParse };
+const textParse = (data: string, fallback: Object): Object => {
+  try {
+    return { name: data };
+  } catch {
+    return fallback;
+  }
+}
+
+export { safeJSONParse, textParse };

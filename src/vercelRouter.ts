@@ -1,11 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { HTTPMethod } from './constants/methods';
-import { safeJSONParse } from './utils';
+import { safeJSONParse, textParse } from './utils';
+
+const fallbackObject = { name: 'Default ИлЛлЛлЛлющенко' };
 
 const processedContentTypes: { [key: string]: any } = {
-  'text/html': (text: string): string => text,
-  'text/plain': (text: string): string => text,
-  'application/json': (json: string): Object => safeJSONParse(json, {}),
+  'text/html': (text: string): Object => textParse(text, fallbackObject),
+  'text/plain': (text: string): Object => textParse(text, fallbackObject),
+  'application/json': (json: string): Object => safeJSONParse(json, fallbackObject),
   'application/x-www-form-urlencoded': (data: string): Object =>
     Object.fromEntries(new URLSearchParams(data)),
 };
