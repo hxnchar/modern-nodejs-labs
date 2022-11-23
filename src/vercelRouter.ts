@@ -42,12 +42,18 @@ export class VercelRouter {
 
   public async handle(req: VercelRequest, res: VercelResponse) {
     const { url, method } = req;
+    if (!url) {
+      throw new Error('No url in req');
+    }
+    if (!method) {
+      throw new Error('No method in req');
+    }
     let payload = {},
       rawRequest = '';
     for await (const chunk of req) {
       rawRequest += chunk;
     }
-    const methodHandlers = this.routes[url as string][method as string];
+    const methodHandlers = this.routes[url][method];
     if (!methodHandlers) {
       throw new Error('Handlers are not implemented');
     }
