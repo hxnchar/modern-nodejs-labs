@@ -29,12 +29,5 @@ jokeRouter.get('/prikol', (req, res) => {
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  try {
-    await jokeRouter.handle(req, res);
-  } catch (e: any) {
-    const status = e.status ?? 500
-    res.status(status).send(JSON.stringify({
-      errors: [{status, title: e.message}]
-    }))
-  }
+  await jokeRouter.handle(req, res);
 }

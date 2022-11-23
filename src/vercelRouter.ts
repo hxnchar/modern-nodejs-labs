@@ -13,7 +13,7 @@ const processedContentTypes: { [key: string]: any } = {
 type Handler = (
   req: VercelRequest,
   res: VercelResponse,
-  payload: { [key: string]: string },
+  payload: string | Object,
 ) => void | Promise<void>;
 
 export class VercelRouter {
