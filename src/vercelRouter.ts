@@ -15,7 +15,7 @@ const processedContentTypes: { [key: string]: any } = {
 type Handler = (
   req: VercelRequest,
   res: VercelResponse,
-  payload: string | Object,
+  payload: Object,
 ) => void | Promise<void>;
 
 export class VercelRouter {
@@ -30,7 +30,7 @@ export class VercelRouter {
     if (!handlers.length) {
       throw new Error('Handlers must be implemented');
     }
-    const url = this.base.concat(route);
+    const url = `${this.base}${route}`;
 
     if (!this.routes[url]?.[method]) {
       const existingHandlers = this.routes[url] || {};
